@@ -166,4 +166,5 @@ testing/
 
 # Editors
 .vscode/settings.json
+.idea
 .DS_Store
