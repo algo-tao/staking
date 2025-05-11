@@ -3,6 +3,7 @@
 import os, requests
 from .const import RAWGIT_ROOT
 from .simst import SimSt
+from Sταking.core.pgsql import PgsqlStorage
 
 def update():
     init = 'Sταking/__init__.py'
@@ -20,10 +21,12 @@ def update():
     return err
 
 def isnew(ss58):
-    cd = os.path.dirname(os.path.realpath(__file__))
-    last, strat = f'{cd}/../strat/.last-update', f'{cd}/../strat/{ss58}'
-    for f in strat, last: ... if os.path.exists(f) else open(f, 'a').close()
-    return os.path.getsize(strat) and os.path.getmtime(strat) > os.path.getmtime(last)
+    update = PgsqlStorage().query_update(ss58)
+    return update > 0
+    # cd = os.path.dirname(os.path.realpath(__file__))
+    # last, strat = f'{cd}/../strat/.last-update', f'{cd}/../strat/{ss58}'
+    # for f in strat, last: ... if os.path.exists(f) else open(f, 'a').close()
+    # return os.path.getsize(strat) and os.path.getmtime(strat) > os.path.getmtime(last)
 
 def issimilar():
     pass
